@@ -1,0 +1,7 @@
+---
+# handlers file for lighthouse-role
+- name: Restart Apache
+  become: true
+  ansible.builtin.service:
+    name: httpd.service
+    state: restarted

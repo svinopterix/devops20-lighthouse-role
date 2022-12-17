@@ -1,0 +1,31 @@
+---
+# tasks file for lighthouse-role
+- name: Install apache
+  become: true
+  ansible.builtin.package:
+    name: httpd.x86_64
+    state: present
+  tags: lighthouse  
+
+- name: Install git
+  become: true
+  ansible.builtin.package:
+    name: git
+    state: present
+  tags: lighthouse
+
+- name: Create lighthouse home dir
+  become: true
+  ansible.builtin.file: 
+    path: "{{ lighthouse_home }}"
+    state: directory
+  tags: lighthouse
+
+- name: Clone git repo with lighthouse
+  become: true
+  ansible.builtin.git:
+    repo: "https://github.com/VKCOM/lighthouse.git"
+    dest: "{{ lighthouse_home }}"
+    force: true
+  tags: lighthouse
+  notify: Restart Apache
